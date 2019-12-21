@@ -5,8 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
+    public class Point{
+        public int x, y;
+        Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public  File file;
     public  List<List<Integer>> data = new ArrayList<>();
+    public Point start, end;
 
     public Parser(String filename){
         this.file = new File(filename);
@@ -21,10 +30,14 @@ public class Parser {
             while ((line = in.readLine()) != null){
                 data.add(new ArrayList<>());
                 String[] values = line.split(",");
+                int v = 0;
                 for (String value : values) {
                     int l;
                     l = Integer.parseInt(value);
                     data.get(row).add(l);
+                    if(l == -2)start = new Point(v, row);
+                    if(l == -3)end = new Point(v, row);
+                    v++;
                 }
                 row++;
             }
