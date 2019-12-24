@@ -9,6 +9,7 @@ public class Main {
         lab1.print();
         BFS bfs = new BFS(lab1);
         bfs.getDistance();
+        bfs.getStatistics();
     }
 
 }

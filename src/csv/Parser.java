@@ -3,8 +3,8 @@ package csv;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-public class Parser {
+import algoritmi.Point;
+public class Parser extends Point{
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -16,17 +16,10 @@ public class Parser {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public class Point{
-        public int x, y;
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     public  File file;
     public  List<List<Integer>> data = new ArrayList<>();
-    public Point start, end;
+    public Point start;
+    public List<Point> end = new ArrayList<>();
 
     public Parser(String filename){
         this.file = new File(filename);
@@ -47,7 +40,7 @@ public class Parser {
                     l = Integer.parseInt(value);
                     data.get(row).add(l);
                     if(l == -2)start = new Point(v, row);
-                    if(l == -3)end = new Point(v, row);
+                    if(l == -3)end.add(new Point(v, row));
                     v++;
                 }
                 row++;
@@ -61,10 +54,10 @@ public class Parser {
     public void print(){
         for(int i=0;i<this.data.size(); i++){
             for(int j=0; j<this.data.get(i).size();j++){
-                if(this.data.get(i).get(j) == -1) System.out.print(ANSI_BLACK + " ■ " + ANSI_RESET);
-                else if(this.data.get(i).get(j) == -2) System.out.print(ANSI_GREEN + " ■ " + ANSI_RESET);
-                else if(this.data.get(i).get(j) == -3) System.out.print(ANSI_GREEN + " ■ " + ANSI_RESET);
-                else System.out.print(" " + this.data.get(i).get(j)+ " ");
+                if(this.data.get(i).get(j) == -1) System.out.printf(ANSI_BLACK + "%s" + ANSI_RESET, "X");
+                else if(this.data.get(i).get(j) == -2) System.out.printf(ANSI_RED + "%s" + ANSI_RESET, "X");
+                else if(this.data.get(i).get(j) == -3) System.out.printf(ANSI_GREEN + "%s" + ANSI_RESET, "X");
+                else System.out.printf("%s",this.data.get(i).get(j));
             }
             System.out.println();
         }
