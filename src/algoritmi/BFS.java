@@ -100,7 +100,7 @@ public class BFS{
     public void getCost(){
         int cost = 0;
         for(int i=1; i<this.path.size()-1;i++) {
-            cost+= this.maze.get(this.path.get(i).x).get(this.path.get(i).y);
+            cost+= this.maze.get(this.path.get(i).y).get(this.path.get(i).x);
         }
         System.out.println("Cost: " + cost);
     }

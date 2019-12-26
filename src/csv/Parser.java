@@ -41,7 +41,6 @@ public class Parser extends Point{
                     data.get(row).add(l);
                     if(l == -2)start = new Point(v, row);
                     if(l == -3)end.add(new Point(v, row));
-                    if(l == -3)System.out.println(v + " " + row);
                     v++;
                 }
                 row++;
