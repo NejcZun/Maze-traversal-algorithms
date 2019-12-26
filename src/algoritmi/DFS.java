@@ -3,11 +3,11 @@ package algoritmi;
 import csv.Parser;
 
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-public class BFS{
+public class DFS {
     private static final int[][] DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
     static int ROW;
     static int COL;
@@ -16,15 +16,14 @@ public class BFS{
     private static List<Point> dest = new ArrayList<>();
     private List<Point> path;
     public List<Point> result = new ArrayList<>();
-    List<List<Integer>> maze;
 
-    public BFS(Parser maze){
+    List<List<Integer>> maze;
+    public DFS(Parser maze){
         this.maze = maze.data;
         this.start = maze.start;
         this.ROW = maze.data.size();
         this.COL = maze.data.get(0).size();
         this.visited = new boolean[ROW][COL];
-
         for (Point point : maze.end) {
             dest.add(new Point(point.x, point.y));
         }
@@ -32,32 +31,38 @@ public class BFS{
     }
 
     public List<Point> solve() {
-        LinkedList<Point> nextToVisit = new LinkedList<>();
-        Point start = this.start;
-        nextToVisit.add(start);
-
-        while (!nextToVisit.isEmpty()) {
-            Point cur = nextToVisit.remove();
-
-            if (!isValid(cur.getX(), cur.getY()) || isExplored(cur.getX(), cur.getY())) continue;
-
-
-            if (isWall(cur.getX(), cur.getY())) {
-                setVisited(cur.getX(), cur.getY(), true);
-                continue;
-            }
-            for (Point finish : dest) {
-                if (cur.getX() == finish.x && cur.getY() == finish.y) {
-                    return backtrackPath(cur);
-                }
-            }
-            for (int[] direction : DIRECTIONS) {
-                Point coordinate = new Point(cur.getX() + direction[0], cur.getY() + direction[1], cur);
-                nextToVisit.add(coordinate);
-                setVisited(cur.getX(), cur.getY(), true);
-            }
+        List<Point> path = new ArrayList<>();
+        if (explore(this.start.getX(), this.start.getY(), path)) {
+            return path;
         }
         return Collections.emptyList();
+    }
+
+    private boolean explore(int row, int col, List<Point> path) {
+        if (!isValid(row, col) || isWall(row, col) || isExplored(row, col)) {
+            return false;
+        }
+
+        path.add(new Point(row, col));
+        setVisited(row, col, true);
+
+        if (isExit(row, col)) {
+            return true;
+        }
+
+        for (int[] direction : DIRECTIONS) {
+            Point point = getNextCoordinate(row, col, direction[0], direction[1]);
+            if (explore(point.getX(), point.getY(), path)) {
+                return true;
+            }
+        }
+
+        path.remove(path.size() - 1);
+        return false;
+    }
+
+    private Point getNextCoordinate(int row, int col, int i, int j) {
+        return new Point(row + i, col + j);
     }
 
     static boolean isValid(int row, int col) {
@@ -68,6 +73,11 @@ public class BFS{
         return this.maze.get(col).get(row) == -1;
     }
 
+    public boolean isExit(int row, int col) {
+        for(Point end : dest)if(end.x == row && end.y == col) return true;
+        return false;
+    }
+
     public void setVisited(int row, int col, boolean value) {
         this.visited[row][col] = value;
     }
@@ -76,20 +86,15 @@ public class BFS{
         return this.visited[row][col];
     }
 
-    private List<Point> backtrackPath(Point cur) {
-        List<Point> path = new ArrayList<>();
-        Point iter = cur;
-        while (iter != null) {
-            path.add(iter);
-            iter = iter.parent;
-        }
 
-        return path;
-    }
+
+    /* -------------------------------------------------------- */
+
+
     public void getPath(){
         System.out.print("Path: ");
-        for(int i=this.path.size()-1; i>=0;i--){
-            if(i == 0)System.out.println("(" + this.path.get(i).x + ", " + this.path.get(i).y + ")");
+        for(int i=0; i<this.path.size();i++){
+            if(this.path.size()-1 == i)System.out.println("(" + this.path.get(i).x + ", " + this.path.get(i).y + ")");
             else System.out.print("(" + this.path.get(i).x + ", " + this.path.get(i).y + "), ");
             result.add(new Point(this.path.get(i).getX(), this.path.get(i).getY()));
         }

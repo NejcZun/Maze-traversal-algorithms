@@ -41,6 +41,7 @@ public class Parser extends Point{
                     data.get(row).add(l);
                     if(l == -2)start = new Point(v, row);
                     if(l == -3)end.add(new Point(v, row));
+                    if(l == -3)System.out.println(v + " " + row);
                     v++;
                 }
                 row++;
@@ -62,4 +63,25 @@ public class Parser extends Point{
             System.out.println();
         }
     }
+    public void printSolution(List<Point> path){
+        for(int i=0;i<this.data.size(); i++){
+            for(int j=0; j<this.data.get(i).size();j++){
+                if(this.data.get(i).get(j) == -1) System.out.printf(ANSI_BLACK + "%s" + ANSI_RESET, "X");
+                else if(this.data.get(i).get(j) == -2) System.out.printf(ANSI_RED + "%s" + ANSI_RESET, "X");
+                else if(this.data.get(i).get(j) == -3) System.out.printf(ANSI_GREEN + "%s" + ANSI_RESET, "X");
+                else {
+                    boolean trigger = false;
+                    for(Point point : path) {
+                        if (point.x == j && point.y == i) {
+                            System.out.printf(ANSI_BLUE + "%s" + ANSI_RESET, this.data.get(i).get(j));
+                            trigger = true;
+                        }
+                    }
+                    if(!trigger)System.out.printf("%s",this.data.get(i).get(j));
+                }
+            }
+            System.out.println();
+        }
+    }
+
 }
