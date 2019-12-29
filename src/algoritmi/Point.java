@@ -46,4 +46,9 @@ public class Point{
     }
 
     public Point(){} //za parser
+
+    @Override
+    public String toString() {
+        return "(" + this.x + ", "+ this.y + ")";
+    }
 }

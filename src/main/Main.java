@@ -43,6 +43,5 @@ public class Main {
         aStar.getCost();
         maze.printSolution(aStar.result);
 
-
     }
 }
