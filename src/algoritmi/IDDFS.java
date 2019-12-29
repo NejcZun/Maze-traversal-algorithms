@@ -16,7 +16,6 @@ public class IDDFS {
     private static List<Point> dest = new ArrayList<>();
     private List<Point> path;
     public List<Point> result = new ArrayList<>();
-    private int depth_recursion=0;
     private int depth;
 
     List<List<Integer>> maze;
@@ -28,47 +27,47 @@ public class IDDFS {
         for (Point point : maze.end) {
             dest.add(new Point(point.x, point.y));
         }
-        IDDFS();
+        this.path = IDDFS();
     }
 
     public List<Point> IDDFS(){
-        for(depth = 1; depth < this.ROW * this.COL; depth++){
+        for(depth = 0; depth < this.ROW * this.COL; depth++){
             List<Point> path = new ArrayList<>();
             this.visited = new boolean[ROW][COL];
-            this.path = ModifiedDFS(path);
-        }
 
+            if (ModifiedDFS(this.start.getX(), this.start.getY(), path, depth))
+                return path;
+        }
         return Collections.emptyList();
     }
-    public List<Point> ModifiedDFS(List<Point> path){
-        Stack<Point> points = new Stack<>();
-        points.push(this.start);
-        while(! points.empty()){
-            Point cur = points.peek();
-            if (!isValid(cur.x, cur.y) || isWall(cur.x, cur.y) || isExplored(cur.y, cur.x)) {
 
-            } else {
-                path.add(cur);
-                setVisited(cur.y, cur.x, true);
+    public boolean ModifiedDFS(int row, int col, List<Point> path, int limit) {
 
-                if (isExit(cur.x, cur.y)) return path;
-
-                if (points.size() <= depth) {
-                    for (int[] direction : DIRECTIONS) {
-                        Point point = getNextCoordinate(cur.x, cur.y, direction[0], direction[1]);
-                        points.push(point);
-                    }
-                }
-            }
-            points.pop();
+        if (isExit(row, col)) {
+            return true;
         }
-        System.out.println("Nisem nasel poti!");
-        return path;
+
+        if (limit <= 0) return false;
+
+        if (!isValid(row, col) || isWall(row, col) || isExplored(row, col)) {
+            return false;
+        }
+
+        path.add(new Point(row, col));
+        setVisited(row, col, true);
+
+        for (int[] direction : DIRECTIONS) {
+            Point point = getNextCoordinate(row, col, direction[0], direction[1]);
+            if (ModifiedDFS(point.getX(), point.getY(), path, limit - 1)) {
+                return true;
+            }
+        }
+
+        path.remove(path.size() - 1);
+
+        return false;
+
     }
-
-
-
-
 
     private Point getNextCoordinate(int row, int col, int i, int j) {
         return new Point(row + i, col + j);
@@ -102,7 +101,6 @@ public class IDDFS {
 
     public void getPath(){
         System.out.print("Path: ");
-        System.out.println(this.path.size());
         for(int i=0; i<this.path.size();i++){
             if(this.path.size()-1 == i)System.out.println("(" + this.path.get(i).x + ", " + this.path.get(i).y + ")");
             else System.out.print("(" + this.path.get(i).x + ", " + this.path.get(i).y + "), ");
@@ -122,7 +120,15 @@ public class IDDFS {
     public void getStatistics(){
         int num_of_visited = 0;
         for(int i=0; i<visited.length;i++){
-            for(int j=0;j<visited[0].length;j++)if(visited[i][j])num_of_visited++;
+            for(int j=0;j<visited[0].length;j++){
+                if(visited[i][j]){
+                    num_of_visited++;
+                    //System.out.print("T ");
+                }else{
+                    //System.out.print("F ");
+                }
+            }
+            //System.out.println();
         }
         System.out.println("Number of visits: " + num_of_visited);
     }

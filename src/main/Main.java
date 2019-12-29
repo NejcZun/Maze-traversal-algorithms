@@ -8,31 +8,31 @@ import csv.Parser;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_8.txt");
         //maze.print();
         System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
         dfs.getPath();
         dfs.getDistance();
-        /*dfs.getCost();*/
+        dfs.getCost();
         dfs.getStatistics();
         maze.printSolution(dfs.result);
 
-        /*System.out.println("BFS: ");
+        System.out.println("\nBFS: ");
         BFS bfs = new BFS(maze);
         bfs.getPath();
         bfs.getDistance();
         bfs.getCost();
         bfs.getStatistics();
-        maze.printSolution(bfs.result);*/
+        maze.printSolution(bfs.result);
 
 
-        System.out.println("IDDFS: ");
+        System.out.println("\nIDDFS: ");
         IDDFS iddfs = new IDDFS(maze);
         iddfs.getPath();
-        /*iddfs.getDistance();
+        iddfs.getDistance();
         iddfs.getCost();
-        iddfs.getStatistics();*/
+        iddfs.getStatistics();
         maze.printSolution(iddfs.result);
     }
 }
