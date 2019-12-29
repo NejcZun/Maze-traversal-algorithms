@@ -9,7 +9,7 @@ import csv.Parser;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_12.txt");
         //maze.print();
         /*System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);

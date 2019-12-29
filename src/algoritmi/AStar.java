@@ -69,7 +69,6 @@ public class AStar {
         pathReconstruction.put(new Point(-1, -1), this.start);
 
         open.add(start);
-        //System.out.println("Odpiram vozlisce" + start.toString());
 
         while(!open.isEmpty()){
 
@@ -93,9 +92,6 @@ public class AStar {
             pathReconstruction.put(this.start, curNode);
 
             if(isExit(curNode.x, curNode.y)){
-                System.out.println("Resitev A* v vozliscu " + curNode.toString());
-
-                //System.out.println(pathReconstruction);
 
                 while(true){
                     curNode = pathReconstruction.get(curNode);
@@ -153,7 +149,6 @@ public class AStar {
 
     public void getPath(){
         System.out.print("Path: ");
-        System.out.println(path.size());
         for(int i=0; i<this.path.size();i++){
             if(this.path.size()-1 == i)System.out.println("(" + this.path.get(i).x + ", " + this.path.get(i).y + ")");
             else System.out.print("(" + this.path.get(i).x + ", " + this.path.get(i).y + "), ");
