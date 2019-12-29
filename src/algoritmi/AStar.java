@@ -6,8 +6,139 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+class Node{
+
+    public Node parent;
+    public Point pos;
+
+    int g, h, f;
+
+    public Node(Node p, Point pos){
+        this.parent = p;
+        this.pos = pos;
+
+        g = 0;
+        h = 0;
+        f = 0;
+    }
+
+}
+
 public class AStar {
     private static final int[][] DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+    static int ROW;
+    static int COL;
+
+    private Point start;
+    private static List<Point> dest = new ArrayList<>();
+    private List<Point> path;
+
+    private Point closest_end = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+    public List<Point> result = new ArrayList<>();
+
+    List<List<Integer>> maze;
+
+    private int[][] f_score;
+    private int[][] g_score;
+    private int[][] h_score;
+
+    public AStar(Parser maze) {
+        this.maze = maze.data;
+        this.start = maze.start;
+        this.ROW = maze.data.size();
+        this.COL = maze.data.get(0).size();
+
+        f_score = new int[ROW][COL];
+        h_score = new int[ROW][COL];
+        g_score = new int[ROW][COL];
+
+
+        for (Point end : maze.end) {
+            dest.add(new Point(end.x, end.y));
+            if (Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)) < Math.sqrt(Math.pow(closest_end.x - start.x, 2) + Math.pow(closest_end.y - start.y, 2))) {
+                this.closest_end = end;
+            }
+        }
+
+        for (int x = 0; x < this.maze.size(); x++){
+            for (int y = 0; y < this.maze.get(0).size(); y++) {
+                h_score[x][y] = Math.abs(this.closest_end.x - x) + Math.abs(this.closest_end.y - y);
+                g_score[x][y] = Integer.MAX_VALUE;
+                f_score[x][y] = Integer.MAX_VALUE;
+
+            }
+        }
+        AStarPath();
+
+    }
+
+    private List<Point> AStarPath() {
+
+        List<Node> ends = new ArrayList<>();
+
+        Node start = new Node(null, this.start);
+        for (Point aDest : dest) ends.add(new Node(null, aDest));
+
+        List<Node> open = new ArrayList<>();
+        List<Node> closed = new ArrayList<>();
+
+        open.add(start);
+
+        while(open.size() > 0){
+
+            Node cur_node = open.get(0);
+            int cur_index = 0;
+
+            for(int i = 0; i < open.size(); i++){
+                if(cur_node.f < open.get(i).f){
+                    cur_node = open.get(i);
+                    cur_index = i;
+                }
+            }
+
+            open.remove(cur_index);
+            closed.add(cur_node);
+
+            if(isExit(cur_node.pos.x, cur_node.pos.y)){
+                path = new ArrayList<>();
+                Node current = cur_node;
+                while(current != null){
+                    path.add(current.pos);
+                    current = current.parent;
+                }
+                return path;
+            }
+
+            List<Node> chilren = new ArrayList<>();
+            for (int[] direction : DIRECTIONS) {
+                Point point = getNextCoordinate(cur_node.pos.x, cur_node.pos.y, direction[0], direction[1]);
+                if(!(isValid(point.x, point.y) && !isWall(point.x, point.y)))
+                    continue;
+                Node new_node = new Node(cur_node, point);
+                chilren.add(new_node);
+            }
+
+            for(Node child : chilren){
+                if(closed.contains(child)){
+                    continue;
+                }
+                child.g = cur_node.g + 1;
+                child.h = (int)((Math.pow((double)(child.pos.x - closest_end.x), 2)) + (Math.pow((double)(child.pos.x - closest_end.x), 2)));
+                child.f = child.g + child.h;
+
+                if(open.contains(child))
+                    continue;
+
+                open.add(child);
+
+            }
+
+        }
+
+        return path;
+    }
+    /*
 
     private List<Point> open;
     private List<List<Boolean>> closed;
@@ -122,7 +253,7 @@ public class AStar {
         return path;
     }
 
-
+    */
 
 
     public boolean isWall(int row, int col) {
@@ -133,6 +264,11 @@ public class AStar {
 
     private Point getNextCoordinate(int row, int col, int i, int j) {
         return new Point(row + i, col + j);
+    }
+
+    public boolean isExit(int row, int col) {
+        for(Point end : dest)if(end.x == row && end.y == col) return true;
+        return false;
     }
 
 
