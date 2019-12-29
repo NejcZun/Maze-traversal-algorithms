@@ -1,5 +1,6 @@
 package main;
 
+import algoritmi.AStar;
 import algoritmi.BFS;
 import algoritmi.DFS;
 
@@ -8,9 +9,9 @@ import csv.Parser;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_8.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
         //maze.print();
-        System.out.println("\nDFS: ");
+        /*System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
         dfs.getPath();
         dfs.getDistance();
@@ -33,6 +34,15 @@ public class Main {
         iddfs.getDistance();
         iddfs.getCost();
         iddfs.getStatistics();
-        maze.printSolution(iddfs.result);
+        maze.printSolution(iddfs.result);*/
+
+        System.out.println("\nAStar: ");
+        AStar aStar = new AStar(maze);
+        aStar.getPath();
+        aStar.getDistance();
+        aStar.getCost();
+        maze.printSolution(aStar.result);
+
+
     }
 }

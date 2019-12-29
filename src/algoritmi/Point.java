@@ -16,10 +16,9 @@ public class Point{
         this.parent = parent;
     }
 
-    public Point(int x, int y, Point parent, double g, double h){
+    public Point(int x, int y, double g, double h){
         this.x = x;
         this.y = y;
-        this.parent = parent;
         this.g = g;
         this.h = h;
     }
@@ -28,7 +27,12 @@ public class Point{
         return (int)((this.g + this.h) - (p.g + p.h));
     }
 
-
+    void setG(double g){
+        this.g = g;
+    }
+    void setH(double h){
+        this.h=h;
+    }
     int getX() {
         return x;
     }
