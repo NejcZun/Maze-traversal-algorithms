@@ -6,18 +6,19 @@ import algoritmi.DFS;
 
 import algoritmi.IDDFS;
 import csv.Parser;
+import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
         Parser maze = new Parser("labyrinths/labyrinth_12.txt");
         //maze.print();
-        /*System.out.println("\nDFS: ");
+        System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
         dfs.getPath();
         dfs.getDistance();
         dfs.getCost();
         dfs.getStatistics();
-        maze.printSolution(dfs.result);
+        //maze.printSolution(dfs.result);
 
         System.out.println("\nBFS: ");
         BFS bfs = new BFS(maze);
@@ -25,7 +26,7 @@ public class Main {
         bfs.getDistance();
         bfs.getCost();
         bfs.getStatistics();
-        maze.printSolution(bfs.result);
+        //maze.printSolution(bfs.result);
 
 
         System.out.println("\nIDDFS: ");
@@ -34,14 +35,15 @@ public class Main {
         iddfs.getDistance();
         iddfs.getCost();
         iddfs.getStatistics();
-        maze.printSolution(iddfs.result);*/
+        //maze.printSolution(iddfs.result);
 
         System.out.println("\nAStar: ");
         AStar aStar = new AStar(maze);
         aStar.getPath();
         aStar.getDistance();
         aStar.getCost();
-        maze.printSolution(aStar.result);
+        //maze.printSolution(aStar.result);
 
+        new Maze(maze.data, iddfs.result);
     }
 }
