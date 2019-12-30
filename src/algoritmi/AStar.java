@@ -24,11 +24,17 @@ public class AStar {
     private int[][] g_score;
     private int[][] h_score;
 
+    public int cost;
+    public int num_of_visits;
+
     public AStar(Parser maze) {
         this.maze = maze.data;
         this.start = maze.start;
         this.ROW = maze.data.size();
         this.COL = maze.data.get(0).size();
+
+        this.cost=0;
+        this.num_of_visits = 0;
 
         f_score = new int[ROW][COL];
         h_score = new int[ROW][COL];
@@ -132,7 +138,10 @@ public class AStar {
         return this.maze.get(col).get(row) == -1;
     }
 
-    static boolean isValid(int row, int col) { return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL); }
+    boolean isValid(int row, int col) {
+        this.num_of_visits++;
+        return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL);
+    }
 
     private Point getNextCoordinate(int row, int col, int i, int j) {
         return new Point(row + i, col + j);
@@ -164,6 +173,7 @@ public class AStar {
             cost+= this.maze.get(this.path.get(i).y).get(this.path.get(i).x);
         }
         System.out.println("Cost: " + cost);
+        this.cost = cost;
     }
 
 }

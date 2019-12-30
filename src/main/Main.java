@@ -10,7 +10,7 @@ import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_12.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_3.txt");
         //maze.print();
         System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
@@ -44,6 +44,6 @@ public class Main {
         aStar.getCost();
         //maze.printSolution(aStar.result);
 
-        new Maze(maze.data, iddfs.result);
+        new Maze(maze.data, dfs, bfs, iddfs, aStar);
     }
 }

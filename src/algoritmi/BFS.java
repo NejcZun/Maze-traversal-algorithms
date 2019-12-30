@@ -17,6 +17,8 @@ public class BFS{
     private List<Point> path;
     public List<Point> result = new ArrayList<>();
     List<List<Integer>> maze;
+    public int cost;
+    public int num_of_visits;
 
     public BFS(Parser maze){
         this.maze = maze.data;
@@ -24,6 +26,8 @@ public class BFS{
         this.ROW = maze.data.size();
         this.COL = maze.data.get(0).size();
         this.visited = new boolean[ROW][COL];
+        this.cost = 0;
+        this.num_of_visits = 0;
 
         for (Point point : maze.end) {
             dest.add(new Point(point.x, point.y));
@@ -103,6 +107,7 @@ public class BFS{
             cost+= this.maze.get(this.path.get(i).y).get(this.path.get(i).x);
         }
         System.out.println("Cost: " + cost);
+        this.cost = cost;
     }
     public void getStatistics(){
         int num_of_visited = 0;
@@ -110,5 +115,6 @@ public class BFS{
             for(int j=0;j<visited[0].length;j++)if(visited[i][j])num_of_visited++;
         }
         System.out.println("Number of visits: " + num_of_visited);
+        this.num_of_visits = num_of_visited;
     }
 }
