@@ -1,17 +1,15 @@
 package main;
 
-import algoritmi.AStar;
-import algoritmi.BFS;
-import algoritmi.DFS;
+import algoritmi.*;
 
-import algoritmi.IDDFS;
 import csv.Parser;
 import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_3.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
         //maze.print();
+
         System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
         dfs.getPath();
@@ -44,6 +42,15 @@ public class Main {
         aStar.getCost();
         //maze.printSolution(aStar.result);
 
-        new Maze(maze.data, dfs, bfs, iddfs, aStar);
+
+        System.out.println("\nIdaStar: ");
+        IDAStar idaStar = new IDAStar(maze);
+        idaStar.getPath();
+        idaStar.getDistance();
+        idaStar.getCost();
+        //maze.printSolution(idaStar.result);
+
+
+        new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar);
     }
 }
