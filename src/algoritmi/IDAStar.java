@@ -84,11 +84,10 @@ public class IDAStar {
 
             if(isValid(nextNode.x, nextNode.y) && !isWall(nextNode.x, nextNode.y)){
 
-                if(!pot.contains(nextNode)){
+                if(!inPot(nextNode.x, nextNode.y)){
 
                     pot.add(0, nextNode);
-                    //int res = IDAStarSearch(gScore + this.maze.get(nextNode.y).get(nextNode.x), bound);
-                    int res = IDAStarSearch(gScore + searchHeurCost[nextNode.x][nextNode.y], bound);
+                    int res = IDAStarSearch(gScore + this.maze.get(nextNode.y).get(nextNode.x), bound);
 
                     if(found)
                         return res;
@@ -104,6 +103,7 @@ public class IDAStar {
     }
 
     private List<Point> IDAStarFind(){
+
         pot = new LinkedList<>();
         pot.add(this.start);
         found = false;
@@ -142,7 +142,10 @@ public class IDAStar {
         return pot;
     }
 
-
+    public boolean inPot(int row, int col){
+        for(Point pt : this.pot) if(pt.x == row && pt.y == col) return true;
+        return false;
+    }
 
     public boolean isWall(int row, int col) {
         return this.maze.get(col).get(row) == -1;

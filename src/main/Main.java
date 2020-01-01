@@ -7,8 +7,9 @@ import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_15.txt");
         //maze.print();
+
 
         System.out.println("\nDFS: ");
         DFS dfs = new DFS(maze);
@@ -48,8 +49,7 @@ public class Main {
         idaStar.getPath();
         idaStar.getDistance();
         idaStar.getCost();
-        //maze.printSolution(idaStar.result);
-
+        maze.printSolution(idaStar.result);
 
         new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar);
     }
