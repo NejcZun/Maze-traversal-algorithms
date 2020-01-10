@@ -18,16 +18,15 @@ public class AStar {
 
     public List<Point> result = new ArrayList<>();
 
-    List<List<Integer>> maze;
+    private List<List<Integer>> maze;
 
     private int[][] f_score;
     private int[][] g_score;
-    private int[][] h_score;
 
     public int cost;
     public int num_of_visits;
 
-    public AStar(Parser maze) {
+    public AStar(Parser maze, int[][] h_score, boolean calculateHScore) {
         this.maze = maze.data;
         this.start = maze.start;
         this.ROW = maze.data.size();
@@ -37,7 +36,6 @@ public class AStar {
         this.num_of_visits = 0;
 
         f_score = new int[ROW][COL];
-        h_score = new int[ROW][COL];
         g_score = new int[ROW][COL];
 
 
@@ -50,17 +48,18 @@ public class AStar {
 
         for (int x = 0; x < this.maze.size(); x++){
             for (int y = 0; y < this.maze.get(0).size(); y++) {
-                h_score[x][y] = Math.abs(this.closest_end.x - x) + Math.abs(this.closest_end.y - y);
+                if(calculateHScore)
+                    h_score[x][y] = Math.abs(this.closest_end.x - x) + Math.abs(this.closest_end.y - y);
                 g_score[x][y] = Integer.MAX_VALUE;
                 f_score[x][y] = Integer.MAX_VALUE;
 
             }
         }
-        path = AStarPath();
-
+        path = AStarPath(h_score);
     }
 
-    private List<Point> AStarPath() {
+
+    private List<Point> AStarPath(int[][] h_score) {
 
         List<Point> open = new ArrayList<>();
         List<Point> from = new ArrayList<>();
@@ -164,6 +163,11 @@ public class AStar {
             result.add(new Point(this.path.get(i).getX(), this.path.get(i).getY()));
         }
     }
+
+    public List<Point> retPath(){
+        return path;
+    }
+
     public void getDistance(){
         System.out.println("Shortest path: " + this.path.size());
     }

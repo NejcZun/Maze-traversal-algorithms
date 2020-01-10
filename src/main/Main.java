@@ -7,7 +7,7 @@ import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_12.txt");
         //maze.print();
 
 
@@ -37,7 +37,7 @@ public class Main {
         //maze.printSolution(iddfs.result);
 
         System.out.println("\nAStar: ");
-        AStar aStar = new AStar(maze);
+        AStar aStar = new AStar(maze, new int[maze.data.size()][maze.data.get(0).size()], true);
         aStar.getPath();
         aStar.getDistance();
         aStar.getCost();
@@ -58,6 +58,14 @@ public class Main {
         dijkstra.getCost();
         //maze.printSolution(idaStar.result);
 
-        new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar, dijkstra);
+        System.out.println("\nSA: ");
+        SimulatedAnnealing sa = new SimulatedAnnealing(maze);
+        sa.getPath();
+        sa.getDistance();
+        sa.getCost();
+        System.out.println("Number of iterations: " + sa.getIters());
+        //maze.printSolution(sa.result);
+
+        new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar, dijkstra, sa);
     }
 }

@@ -19,7 +19,8 @@ public class Maze {
     public IDDFS iddfs;
     public IDAStar idaStar;
     public Dijkstra dijkstra;
-    public Maze(List<List<Integer>> labirinth, DFS dfs, BFS bfs, IDDFS iddfs, AStar astar, IDAStar idaStar, Dijkstra dijkstra) {
+    public SimulatedAnnealing sa;
+    public Maze(List<List<Integer>> labirinth, DFS dfs, BFS bfs, IDDFS iddfs, AStar astar, IDAStar idaStar, Dijkstra dijkstra, SimulatedAnnealing sa) {
         this.dfs = dfs;
         this.bfs = bfs;
         this.iddfs = iddfs;
@@ -160,13 +161,13 @@ public class Maze {
                 TestPane dijkstra_pane = new TestPane(data, dijkstra.result, W, H);
 
                 Label dijkstra_shortest_path = new Label("Shortest path length: " + dijkstra.result.size(), JLabel.LEFT);
-                dijkstra_shortest_path.setFont(new Font(astar_shortest_path.getName(), Font.PLAIN, 12));
+                dijkstra_shortest_path.setFont(new Font(dijkstra_shortest_path.getName(), Font.PLAIN, 12));
 
                 Label dijkstra_cost = new Label("Cost of path: " + dijkstra.cost, JLabel.LEFT);
-                dijkstra_cost.setFont(new Font(astar_cost.getName(), Font.PLAIN, 12));
+                dijkstra_cost.setFont(new Font(dijkstra_cost.getName(), Font.PLAIN, 12));
 
                 Label dijkstra_visits = new Label("Number of visits: " + dijkstra.num_of_visits, JLabel.LEFT);
-                dijkstra_visits.setFont(new Font(astar_visits.getName(), Font.PLAIN, 12));
+                dijkstra_visits.setFont(new Font(dijkstra_visits.getName(), Font.PLAIN, 12));
 
                 card6.setLayout(new BorderLayout());
                 card6.add(dijkstra_pane, BorderLayout.CENTER);
@@ -174,6 +175,32 @@ public class Maze {
                 card6_info.add(dijkstra_shortest_path);
                 card6_info.add(dijkstra_visits);
                 card6.add(card6_info, BorderLayout.PAGE_END);
+
+                /* ------------------- SA -----------------------------*/
+
+                JPanel card7 = new JPanel();
+                JPanel card7_info = new JPanel();
+                TestPane sa_pane = new TestPane(data, sa.result, W, H);
+
+                Label sa_shortest_path = new Label("Shortest path length: " + sa.result.size(), JLabel.LEFT);
+                sa_shortest_path.setFont(new Font(sa_shortest_path.getName(), Font.PLAIN, 12));
+
+                Label sa_cost = new Label("Cost of path: " + sa.cost, JLabel.LEFT);
+                sa_cost.setFont(new Font(sa_cost.getName(), Font.PLAIN, 12));
+
+                Label sa_visits = new Label("Number of visits: " + sa.num_of_visits, JLabel.LEFT);
+                sa_visits.setFont(new Font(sa_visits.getName(), Font.PLAIN, 12));
+
+                Label sa_iters = new Label("Number of iterations: " + sa.getIters(), JLabel.LEFT);
+                sa_iters.setFont(new Font(sa_iters.getName(), Font.PLAIN, 12));
+
+                card7.setLayout(new BorderLayout());
+                card7.add(sa_pane, BorderLayout.CENTER);
+                card7_info.add(sa_cost);
+                card7_info.add(sa_shortest_path);
+                card7_info.add(sa_visits);
+                card7_info.add(sa_iters);
+                card7.add(card7_info, BorderLayout.PAGE_END);
 
                 /* --------------- Tabs ---------------------------------- */
 
@@ -183,6 +210,7 @@ public class Maze {
                 tab.addTab("ASTAR", card4);
                 tab.addTab("IDASTAR", card5);
                 tab.addTab("DIJKSTRA", card6);
+                tab.addTab("SA", card7);
 
                 frame.add(tab, BorderLayout.CENTER);
                 frame.pack();
