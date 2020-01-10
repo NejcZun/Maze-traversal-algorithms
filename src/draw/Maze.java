@@ -18,7 +18,8 @@ public class Maze {
     public AStar astar;
     public IDDFS iddfs;
     public IDAStar idaStar;
-    public Maze(List<List<Integer>> labirinth, DFS dfs, BFS bfs, IDDFS iddfs, AStar astar, IDAStar idaStar) {
+    public Dijkstra dijkstra;
+    public Maze(List<List<Integer>> labirinth, DFS dfs, BFS bfs, IDDFS iddfs, AStar astar, IDAStar idaStar, Dijkstra dijkstra) {
         this.dfs = dfs;
         this.bfs = bfs;
         this.iddfs = iddfs;
@@ -152,6 +153,28 @@ public class Maze {
                 card5_info.add(idastar_visits);
                 card5.add(card5_info, BorderLayout.PAGE_END);
 
+                /* ------------------- Dijsktra -----------------------------*/
+
+                JPanel card6 = new JPanel();
+                JPanel card6_info = new JPanel();
+                TestPane dijkstra_pane = new TestPane(data, dijkstra.result, W, H);
+
+                Label dijkstra_shortest_path = new Label("Shortest path length: " + dijkstra.result.size(), JLabel.LEFT);
+                dijkstra_shortest_path.setFont(new Font(astar_shortest_path.getName(), Font.PLAIN, 12));
+
+                Label dijkstra_cost = new Label("Cost of path: " + dijkstra.cost, JLabel.LEFT);
+                dijkstra_cost.setFont(new Font(astar_cost.getName(), Font.PLAIN, 12));
+
+                Label dijkstra_visits = new Label("Number of visits: " + dijkstra.num_of_visits, JLabel.LEFT);
+                dijkstra_visits.setFont(new Font(astar_visits.getName(), Font.PLAIN, 12));
+
+                card6.setLayout(new BorderLayout());
+                card6.add(dijkstra_pane, BorderLayout.CENTER);
+                card6_info.add(dijkstra_cost);
+                card6_info.add(dijkstra_shortest_path);
+                card6_info.add(dijkstra_visits);
+                card6.add(card6_info, BorderLayout.PAGE_END);
+
                 /* --------------- Tabs ---------------------------------- */
 
                 tab.addTab("DFS", card1);
@@ -159,6 +182,7 @@ public class Maze {
                 tab.addTab("IDDFS", card3);
                 tab.addTab("ASTAR", card4);
                 tab.addTab("IDASTAR", card5);
+                tab.addTab("DIJKSTRA", card6);
 
                 frame.add(tab, BorderLayout.CENTER);
                 frame.pack();

@@ -7,7 +7,7 @@ import draw.Maze;
 
 public class Main {
     public static void main(String args[]) {
-        Parser maze = new Parser("labyrinths/labyrinth_15.txt");
+        Parser maze = new Parser("labyrinths/labyrinth_1.txt");
         //maze.print();
 
 
@@ -49,8 +49,15 @@ public class Main {
         idaStar.getPath();
         idaStar.getDistance();
         idaStar.getCost();
-        maze.printSolution(idaStar.result);
+        //maze.printSolution(idaStar.result);
 
-        new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar);
+        System.out.println("\nDijkstra: ");
+        Dijkstra dijkstra = new Dijkstra(maze);
+        dijkstra.getPath();
+        dijkstra.getDistance();
+        dijkstra.getCost();
+        //maze.printSolution(idaStar.result);
+
+        new Maze(maze.data, dfs, bfs, iddfs, aStar, idaStar, dijkstra);
     }
 }
