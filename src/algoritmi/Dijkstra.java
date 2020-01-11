@@ -165,7 +165,7 @@ public class Dijkstra {
         }
     }
     public void getDistance(){
-        System.out.println("Shortest path: " + this.path.size());
+        System.out.println("Shortest path: " + (this.path.size() + 2)); //isto kot AStar ne upostevava zacetka pa konca tko da evo se ta +2
     }
     public void getCost(){
         int cost = 0;

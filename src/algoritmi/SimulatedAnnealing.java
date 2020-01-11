@@ -127,7 +127,7 @@ public class SimulatedAnnealing {
         }
     }
     public void getDistance(){
-        System.out.println("Shortest path: " + this.path.size());
+        System.out.println("Shortest path: " + (this.path.size() +2 )); //evo zdej vsi upostevajo zacetk pa konc (+2)
     }
     public void getCost(){
         int cost = 0;

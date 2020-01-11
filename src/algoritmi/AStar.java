@@ -169,7 +169,7 @@ public class AStar {
     }
 
     public void getDistance(){
-        System.out.println("Shortest path: " + this.path.size());
+        System.out.println("Shortest path: " + (this.path.size() + 2)); //ne uposteva zacetka pa konca (ce ga majo ze usi ga naj ma tud ta)
     }
     public void getCost(){
         int cost = 0;
@@ -178,6 +178,9 @@ public class AStar {
         }
         System.out.println("Cost: " + cost);
         this.cost = cost;
+    }
+    public void getStatistics(){
+        System.out.println("Number of visits: " + this.num_of_visits);
     }
 
 }

@@ -112,7 +112,7 @@ public class IDDFS {
         }
     }
     public void getDistance(){
-        System.out.println("Shortest path: " + this.path.size());
+        System.out.println("Shortest path: " + (this.path.size()+1)); // +1 kr ne uposteva zacetka
     }
     public void getCost(){
         int cost = 0;
